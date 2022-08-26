@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
-import { Layout } from '../../components';
+import { BaseLayout } from '../../components';
 
 const NftCreate: NextPage = () => {
-  return <Layout>Nft Create</Layout>;
+  return <BaseLayout>Nft Create</BaseLayout>;
 };
 
 export default NftCreate;

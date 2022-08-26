@@ -1,11 +1,11 @@
 import React from 'react';
 import Navbar from '../navbar';
 
-type LayoutProps = {
+type BaseLayoutProps = {
   children: React.ReactNode; // 👈️ added type for children
 };
 
-const Layout = ({ children }: LayoutProps) => {
+const BaseLayout = ({ children }: BaseLayoutProps) => {
   return (
     <>
       <Navbar />
@@ -18,4 +18,4 @@ const Layout = ({ children }: LayoutProps) => {
   );
 };
 
-export default Layout;
+export default BaseLayout;

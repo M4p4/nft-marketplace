@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
-import { Layout } from '../components';
+import { BaseLayout } from '../components';
 
 const Profile: NextPage = () => {
-  return <Layout>Profile</Layout>;
+  return <BaseLayout>Profile</BaseLayout>;
 };
 
 export default Profile;
