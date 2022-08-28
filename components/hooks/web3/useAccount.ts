@@ -63,7 +63,7 @@ export const hookFactory: AccountHookFactory =
       mutate,
       isValidating,
       connect,
-      isLoading: isLoading || isValidating,
+      isLoading: isLoading as boolean,
       isInstalled: ethereum?.isMetaMask || false,
     };
   };
