@@ -2,16 +2,20 @@ import { HookFactory } from '@_types/hooks';
 import { useEffect } from 'react';
 import useSWR from 'swr';
 
-type useAccountResponse = { connect: () => void };
+type useAccountResponse = {
+  connect: () => void;
+  isLoading: boolean;
+  isInstalled: boolean;
+};
 
 type AccountHookFactory = HookFactory<string, useAccountResponse>;
 
 export type useAccountHook = ReturnType<AccountHookFactory>;
 
 export const hookFactory: AccountHookFactory =
-  ({ provider, ethereum }) =>
-  (params) => {
-    const { data, mutate, ...swr } = useSWR(
+  ({ provider, ethereum, isLoading }) =>
+  () => {
+    const { data, mutate, isValidating, ...swr } = useSWR(
       provider ? 'web3/useAccount' : null,
       async () => {
         const accounts = await provider!.listAccounts();
@@ -52,5 +56,13 @@ export const hookFactory: AccountHookFactory =
       }
     };
 
-    return { ...swr, data, mutate, connect };
+    return {
+      ...swr,
+      data,
+      mutate,
+      isValidating,
+      connect,
+      isLoading: isLoading || isValidating,
+      isInstalled: ethereum?.isMetaMask || false,
+    };
   };
