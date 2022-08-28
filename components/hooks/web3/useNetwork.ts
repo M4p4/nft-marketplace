@@ -4,6 +4,8 @@ import useSWR from 'swr';
 
 type useNetworkResponse = {
   isLoading: boolean;
+  isSupported: boolean;
+  targetNetwork: string;
 };
 
 const NETWORKS: { [k: string]: string } = {
@@ -15,6 +17,8 @@ const NETWORKS: { [k: string]: string } = {
   56: 'Binance Smart Chain',
   1337: 'Ganache',
 };
+
+const targetNetworkName = NETWORKS[process.env.NEXT_PUBLIC_CHAIN_ID as string];
 
 type NetworkHookFactory = HookFactory<string, useNetworkResponse>;
 
@@ -44,5 +48,7 @@ export const hookFactory: NetworkHookFactory =
       data,
       isValidating,
       isLoading: isLoading || isValidating,
+      isSupported: targetNetworkName === data,
+      targetNetwork: targetNetworkName,
     };
   };
