@@ -8,7 +8,7 @@ export type Web3Dependencies = {
   ethereum: MetaMaskInpageProvider;
 };
 
-export type HandlerHook = (params: any) => SWRResponse;
+export type HandlerHook = (params: string) => SWRResponse;
 
 export type HookFactory = {
   (d: Partial<Web3Dependencies>): HandlerHook;
