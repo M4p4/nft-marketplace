@@ -2,13 +2,13 @@
 
 a simple NFT Marketplace DApp where you can sell, buy and mind NFT's. For the UI the TailwindCSS Framework is used.
 
-#### Features
+### Features
 
 - Mint Nft's
 - Sell Nft's
 - Buy Nfts's
 
-#### Run the DApp Locally
+### Run the DApp Locally
 
 #### Install truffle
 
