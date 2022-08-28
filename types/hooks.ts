@@ -8,11 +8,13 @@ export type Web3Dependencies = {
   ethereum: MetaMaskInpageProvider;
 };
 
-export type HookFactory<D = any, P = any> = {
-  (d: Partial<Web3Dependencies>): HandlerHook<D, P>;
+export type HookFactory<D = any, R = any, P = any> = {
+  (d: Partial<Web3Dependencies>): HandlerHook<D, R, P>;
 };
 
-export type HandlerHook<D = any, P = any> = (params?: P) => SWRResponse<D>;
+export type HandlerHook<D = any, R = any, P = any> = (
+  params?: P
+) => SWRResponse<D> & R;
 
 /* one liner
 export type HookFactory<D = any, P = any> = {

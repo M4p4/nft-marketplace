@@ -1,12 +1,14 @@
 import { HookFactory } from '@_types/hooks';
 import useSWR from 'swr';
 
-type AccountHookFactory = HookFactory<string>;
+type useAccountResponse = { connect: () => void };
+
+type AccountHookFactory = HookFactory<string, useAccountResponse>;
 
 export type useAccountHook = ReturnType<AccountHookFactory>;
 
 export const hookFactory: AccountHookFactory =
-  ({ provider }) =>
+  ({ provider, ethereum }) =>
   (params) => {
     const swrRes = useSWR(
       provider ? 'web3/useAccount' : null,
@@ -25,5 +27,13 @@ export const hookFactory: AccountHookFactory =
       }
     );
 
-    return swrRes;
+    const connect = async () => {
+      try {
+        ethereum?.request({ method: 'eth_requestAccounts' });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    return { ...swrRes, connect };
   };
