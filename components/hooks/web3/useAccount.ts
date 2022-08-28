@@ -11,7 +11,7 @@ export type useAccountHook = ReturnType<AccountHookFactory>;
 export const hookFactory: AccountHookFactory =
   ({ provider, ethereum }) =>
   (params) => {
-    const swrRes = useSWR(
+    const { data, mutate, ...swr } = useSWR(
       provider ? 'web3/useAccount' : null,
       async () => {
         const accounts = await provider!.listAccounts();
@@ -39,8 +39,8 @@ export const hookFactory: AccountHookFactory =
       const accounts = args[0] as string[];
       if (accounts.length === 0) {
         console.error('Please connect to Metamask!');
-      } else if (accounts[0] !== swrRes.data) {
-        alert('Account has been changed!');
+      } else if (accounts[0] !== data) {
+        mutate(accounts[0]);
       }
     };
 
@@ -52,5 +52,5 @@ export const hookFactory: AccountHookFactory =
       }
     };
 
-    return { ...swrRes, connect };
+    return { ...swr, data, mutate, connect };
   };
