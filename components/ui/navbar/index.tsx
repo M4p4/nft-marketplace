@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 
-import { Disclosure, Menu } from '@headlessui/react';
+import { Disclosure } from '@headlessui/react';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { useAccount } from '@hooks/web3';
 import ActiveLink from '../link';
