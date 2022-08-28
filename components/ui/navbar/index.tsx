@@ -1,12 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { Disclosure, Menu } from '@headlessui/react';
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
+import { MenuIcon, XIcon } from '@heroicons/react/outline';
 import { useAccount } from '@hooks/web3';
-import { useWeb3 } from '@providers/web3';
-
-import Link from 'next/link';
 import ActiveLink from '../link';
+import Walletbar from './walletbar';
 
 const navigation = [
   { name: 'Marketplace', href: '/', current: true },
@@ -19,8 +17,6 @@ function classNames(...classes: string[]) {
 
 export default function Navbar() {
   const { account } = useAccount();
-  console.log('loading:', account.isLoading);
-  console.log('installed:', account.isInstalled);
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -65,56 +61,12 @@ export default function Navbar() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button
-                  type="button"
-                  className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
-
-                {/* Profile dropdown */}
-                {false ? (
-                  <Menu as="div" className="ml-3 z-10 relative">
-                    <div>
-                      <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                        <span className="sr-only">Open user menu</span>
-                        <img
-                          className="h-8 w-8 rounded-full"
-                          src="/images/default_avatar.png"
-                          alt=""
-                        />
-                      </Menu.Button>
-                    </div>
-
-                    <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <Link href="/profile">
-                            <a
-                              className={classNames(
-                                active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm text-gray-700'
-                              )}
-                            >
-                              Your Profile
-                            </a>
-                          </Link>
-                        )}
-                      </Menu.Item>
-                    </Menu.Items>
-                  </Menu>
-                ) : (
-                  <button
-                    onClick={() => {
-                      account.connect();
-                    }}
-                    type="button"
-                    className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none"
-                  >
-                    Connect Wallet
-                  </button>
-                )}
+                <Walletbar
+                  isInstalled={account.isInstalled}
+                  isLoading={account.isLoading}
+                  account={account.data}
+                  connect={account.connect}
+                />
               </div>
             </div>
           </div>
