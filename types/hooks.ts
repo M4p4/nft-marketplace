@@ -12,7 +12,7 @@ export type HookFactory<D = any, P = any> = {
   (d: Partial<Web3Dependencies>): HandlerHook<D, P>;
 };
 
-export type HandlerHook<D = any, P = any> = (params: P) => SWRResponse<D>;
+export type HandlerHook<D = any, P = any> = (params?: P) => SWRResponse<D>;
 
 /* one liner
 export type HookFactory<D = any, P = any> = {
