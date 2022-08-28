@@ -13,12 +13,21 @@ const pageReload = () => {
   window.location.reload();
 };
 
+const handleAccount = (ethereum: MetaMaskInpageProvider) => async () => {
+  const isLocked = !(await ethereum._metamask.isUnlocked());
+  if (isLocked) {
+    pageReload();
+  }
+};
+
 const setGlobalListeners = (ethereum: MetaMaskInpageProvider) => {
   ethereum.on('chainChanged', pageReload);
+  ethereum.on('accountsChanged', handleAccount(ethereum));
 };
 
 const removeGlobalListeners = (ethereum: MetaMaskInpageProvider) => {
   ethereum.removeListener('chainChanged', pageReload);
+  ethereum.removeListener('accountsChanged', handleAccount);
 };
 
 const Web3Context = createContext<Web3State>(createDefaultState());
