@@ -9,8 +9,9 @@ contract('NftMarket', (accounts) => {
 
   describe('Mint token', () => {
     const tokenURI = 'https://test.com';
+    const price = 5;
     before(async () => {
-      await _contract.mintToken(tokenURI, { from: accounts[0] });
+      await _contract.mintToken(tokenURI, price, { from: accounts[0] });
     });
 
     it('owner of first token should be address[0]', async () => {
@@ -29,7 +30,7 @@ contract('NftMarket', (accounts) => {
 
     it('tokenURI already used', async () => {
       await truffleAssert.fails(
-        _contract.mintToken(tokenURI, { from: accounts[0] }),
+        _contract.mintToken(tokenURI, price, { from: accounts[0] }),
         truffleAssert.ErrorType.REVERT,
         'Token URI already exists'
       );
