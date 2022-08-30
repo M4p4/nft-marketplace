@@ -14,9 +14,10 @@ export const hookFactory: ListedNftsHookFactory =
     const { data, ...swr } = useSWR(
       contract ? 'web3/useListedNfts' : null,
       async () => {
+        const nfts = [] as Nft[];
         const coreNfts = await contract!.getAllNftsOnSale();
 
-        return coreNfts;
+        return nfts;
       }
     );
 
