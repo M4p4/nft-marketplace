@@ -1,5 +1,6 @@
 import { setupHooks } from '@hooks/web3/setupHooks';
 import { MetaMaskInpageProvider } from '@metamask/providers';
+import { NftMarketContract } from '@_types/nftMarketContract';
 import { ethers } from 'ethers';
 import { createContext, FC, useContext, useEffect, useState } from 'react';
 import {
@@ -52,7 +53,7 @@ const Web3Provider: FC<WebProviderProps> = ({ children }) => {
         setWeb3Api(
           createWeb3State({
             ethereum: window.ethereum,
-            contract,
+            contract: contract as unknown as NftMarketContract,
             provider,
             isLoading: false,
           })
