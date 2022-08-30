@@ -142,4 +142,32 @@ contract('NftMarket', (accounts) => {
       assert.equal(ntfs.length, 2, 'account[1] should be owning 2 token');
     });
   });
+
+  /*
+  describe('Burn token', () => {
+    const tokenURI = 'https://test-json-3.com';
+    before(async () => {
+      await _contract.mintToken(tokenURI, _nftPrice, {
+        from: accounts[2],
+        value: _listingPrice,
+      });
+    });
+
+    it('account[2] should own 1 token', async () => {
+      const ntfs = await _contract.getOwnedNfts({
+        from: accounts[2],
+      });
+      assert.equal(ntfs.length, 1, 'account[2] should be owning 1 token');
+    });
+
+    it('account[2] burn his token', async () => {
+      await _contract.burnToken(3, {
+        from: accounts[2],
+      });
+      const ntfs = await _contract.getOwnedNfts({
+        from: accounts[2],
+      });
+      assert.equal(ntfs.length, 0, 'account[2] should be owning 0 token');
+    });
+  });*/
 });
