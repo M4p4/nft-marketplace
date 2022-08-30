@@ -101,5 +101,11 @@ contract('NftMarket', (accounts) => {
       assert.equal(index0, 1, 'index0 is not 1');
       assert.equal(index1, 2, 'index1 is not 2');
     });
+
+    it('should be 1 Nft on sale', async () => {
+      const items = await _contract.getAllNftsOnSale();
+      assert.equal(items.length, 1, 'Should be 1 Nft on sale');
+      assert.equal(items[0].tokenId, 2, 'Should be token id 2');
+    });
   });
 });
