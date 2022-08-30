@@ -143,6 +143,33 @@ contract('NftMarket', (accounts) => {
     });
   });
 
+  describe('List an Token', () => {
+    before(async () => {
+      await _contract.placeNftOnSale(1, _nftPrice, {
+        from: accounts[1],
+        value: _listingPrice,
+      });
+    });
+
+    it('should have 2 listed items', async () => {
+      const items = await _contract.getAllNftsOnSale();
+      console.log(items.length);
+      assert.equal(items.length, 2, 'should be 2 token on sales');
+    });
+
+    it('should change listing price', async () => {
+      await _contract.setListingPrice(_listingPrice, {
+        from: accounts[0],
+      });
+      listingPrice = await _contract.listingPrice();
+      assert.equal(
+        listingPrice.toString(),
+        _listingPrice,
+        'listing price should match'
+      );
+    });
+  });
+
   /*
   describe('Burn token', () => {
     const tokenURI = 'https://test-json-3.com';
