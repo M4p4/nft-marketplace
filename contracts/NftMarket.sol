@@ -7,8 +7,12 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract NftMarket is ERC721URIStorage {
   using Counters for Counters.Counter;
 
+  uint public listingPrice = 0.025 ether;
+
   Counters.Counter private _listedItems;
   Counters.Counter private _tokenIds;
+
+  uint256[] private _allNfts;
 
   struct NftItem {
     uint tokenId;
@@ -17,8 +21,7 @@ contract NftMarket is ERC721URIStorage {
     bool isListed;
   }
 
-  uint public listingPrice = 0.025 ether;
-
+  mapping(uint => uint) private _idToNftIndex;
   mapping(string => bool) private _usedTokenURIs;
   mapping(uint => NftItem) private _idToNftItem;
 
@@ -41,6 +44,15 @@ contract NftMarket is ERC721URIStorage {
 
   function tokenURIExists(string memory tokenURI) public view returns (bool) {
     return _usedTokenURIs[tokenURI] == true;
+  }
+
+  function totalSupply() public view returns (uint) {
+    return _allNfts.length;
+  }
+
+  function tokenByIndex(uint index) public view returns (uint) {
+    require(index < totalSupply(), "index out of bounds");
+    return _allNfts[index];
   }
 
   function mintToken(string memory tokenURI, uint price) public payable returns (uint) {
@@ -85,6 +97,19 @@ contract NftMarket is ERC721URIStorage {
     );
 
     emit NftItemCreated(tokenId, price, msg.sender, true);
+  }
+
+  function _beforeTokenTransfer(address from, address to, uint tokenId) internal virtual override {
+    super._beforeTokenTransfer(from, to, tokenId);
+
+    if(from == address(0)) {
+      _addTokenToAllTokensEnumaration(tokenId);
+    }
+  }
+
+  function _addTokenToAllTokensEnumaration(uint tokenId) private {
+    _idToNftIndex[tokenId] = _allNfts.length;
+    _allNfts.push(tokenId);
   }
 
  }
