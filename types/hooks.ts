@@ -1,5 +1,5 @@
 import { MetaMaskInpageProvider } from '@metamask/providers';
-import { Contract, providers } from 'ethers';
+import { providers } from 'ethers';
 import { SWRResponse } from 'swr';
 import { NftMarketContract } from './nftMarketContract';
 
