@@ -90,7 +90,7 @@ contract('NftMarket', (accounts) => {
       });
     });
 
-    it('should 2 Nfts created', async () => {
+    it('should be 2 tokens created', async () => {
       const totalSupply = await _contract.totalSupply();
       assert.equal(totalSupply, 2, 'Supply is not 2');
     });
@@ -102,24 +102,44 @@ contract('NftMarket', (accounts) => {
       assert.equal(index1, 2, 'index1 is not 2');
     });
 
-    it('should be 1 Nft on sale', async () => {
+    it('should be 1 token on sale', async () => {
       const items = await _contract.getAllNftsOnSale();
-      assert.equal(items.length, 1, 'Should be 1 Nft on sale');
+      assert.equal(items.length, 1, 'Should be 1 token on sale');
       assert.equal(items[0].tokenId, 2, 'Should be token id 2');
     });
 
-    it('account[0] should own 1 nft', async () => {
+    it('account[0] should own 1 token', async () => {
       const ntfs = await _contract.getOwnedNfts({
         from: accounts[0],
       });
-      assert.equal(ntfs.length, 1, 'account[0] should be owning 1 Nft');
+      assert.equal(ntfs.length, 1, 'account[0] should be owning 1 token');
     });
 
-    it('account[1] should own 1 nft', async () => {
+    it('account[1] should own 1 token', async () => {
       const ntfs = await _contract.getOwnedNfts({
         from: accounts[1],
       });
-      assert.equal(ntfs.length, 1, 'account[1] should be owning 1 Nft');
+      assert.equal(ntfs.length, 1, 'account[1] should be owning 1 token');
+    });
+  });
+
+  describe('Token transfer to new owner', () => {
+    before(async () => {
+      await _contract.transferFrom(accounts[0], accounts[1], 2);
+    });
+
+    it('account[0] should own 0 token', async () => {
+      const ntfs = await _contract.getOwnedNfts({
+        from: accounts[0],
+      });
+      assert.equal(ntfs.length, 0, 'account[0] should be owning 0 token');
+    });
+
+    it('account[1] should own 2 token', async () => {
+      const ntfs = await _contract.getOwnedNfts({
+        from: accounts[1],
+      });
+      assert.equal(ntfs.length, 2, 'account[1] should be owning 2 token');
     });
   });
 });
