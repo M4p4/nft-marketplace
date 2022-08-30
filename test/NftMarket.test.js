@@ -107,5 +107,19 @@ contract('NftMarket', (accounts) => {
       assert.equal(items.length, 1, 'Should be 1 Nft on sale');
       assert.equal(items[0].tokenId, 2, 'Should be token id 2');
     });
+
+    it('account[0] should own 1 nft', async () => {
+      const ntfs = await _contract.getOwnedNfts({
+        from: accounts[0],
+      });
+      assert.equal(ntfs.length, 1, 'account[0] should be owning 1 Nft');
+    });
+
+    it('account[1] should own 1 nft', async () => {
+      const ntfs = await _contract.getOwnedNfts({
+        from: accounts[1],
+      });
+      assert.equal(ntfs.length, 1, 'account[1] should be owning 1 Nft');
+    });
   });
 });
