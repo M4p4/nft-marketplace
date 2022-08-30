@@ -80,4 +80,26 @@ contract('NftMarket', (accounts) => {
       assert.equal(currentOwner, accounts[1], 'Current owner is wrong');
     });
   });
+
+  describe('Token transfers', () => {
+    const tokenURI = 'https://test-json.com';
+    before(async () => {
+      await _contract.mintToken(tokenURI, _nftPrice, {
+        from: accounts[0],
+        value: _listingPrice,
+      });
+    });
+
+    it('should 2 Nfts created', async () => {
+      const totalSupply = await _contract.totalSupply();
+      assert.equal(totalSupply, 2, 'Supply is not 2');
+    });
+
+    it('get token by index', async () => {
+      const index0 = await _contract.tokenByIndex(0);
+      const index1 = await _contract.tokenByIndex(1);
+      assert.equal(index0, 1, 'index0 is not 1');
+      assert.equal(index1, 2, 'index1 is not 2');
+    });
+  });
 });
