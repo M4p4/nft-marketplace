@@ -18,7 +18,7 @@ export default withSession(
         const { body } = req;
         const nft = body.nft as NftMeta;
 
-        if (!nft.attributes || !nft.name || !nft.description) {
+        if (!nft.attributes || !nft.name || !nft.description || !nft.image) {
           return res.status(422).send({ message: 'Data is not valid' });
         }
 
