@@ -3,7 +3,9 @@ import { Nft } from '@_types/nft';
 import { ethers } from 'ethers';
 import useSWR from 'swr';
 
-type useOwnedNftsResponse = {};
+type useOwnedNftsResponse = {
+  listNft: (tokenId: number, price: number) => Promise<void>;
+};
 
 type OwnedNftsHookFactory = HookFactory<any, useOwnedNftsResponse>;
 
@@ -36,8 +38,28 @@ export const hookFactory: OwnedNftsHookFactory =
       }
     );
 
+    const listNft = async (tokenId: number, price: number) => {
+      try {
+        const listingPrice = await contract?.listingPrice();
+        console.log('listing price', listingPrice);
+        const result = await contract?.placeNftOnSale(
+          tokenId,
+          ethers.utils.parseEther(price.toString()),
+          {
+            value: listingPrice,
+          }
+        );
+
+        await result?.wait();
+        alert('Item has been listed!');
+      } catch (e: any) {
+        console.log(e.message);
+      }
+    };
+
     return {
       ...swr,
+      listNft,
       data: data || [],
     };
   };

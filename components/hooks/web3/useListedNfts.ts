@@ -3,7 +3,9 @@ import { Nft } from '@_types/nft';
 import { ethers } from 'ethers';
 import useSWR from 'swr';
 
-type useListedNftsResponse = {};
+type useListedNftsResponse = {
+  buyNft: (tokenId: number, value: number) => Promise<void>;
+};
 
 type ListedNftsHookFactory = HookFactory<any, useListedNftsResponse>;
 
@@ -36,8 +38,22 @@ export const hookFactory: ListedNftsHookFactory =
       }
     );
 
+    const buyNft = async (tokenId: number, value: number) => {
+      try {
+        const result = await contract?.buyNft(tokenId, {
+          value: ethers.utils.parseEther(value.toString()),
+        });
+
+        await result?.wait();
+        alert('You bought a NFT. See profile page!');
+      } catch (e: any) {
+        console.log(e.message);
+      }
+    };
+
     return {
       ...swr,
+      buyNft,
       data: data || [],
     };
   };
