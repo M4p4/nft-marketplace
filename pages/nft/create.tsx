@@ -14,6 +14,7 @@ const NftCreate: NextPage = () => {
   const { ethereum } = useWeb3();
   const [nftURI, setNftURI] = useState('');
   const [hasURI, setHasURI] = useState(false);
+  const [price, setPrice] = useState('');
   const [nftMeta, setNftMeta] = useState<NftMeta>({
     name: '',
     description: '',
@@ -101,18 +102,14 @@ const NftCreate: NextPage = () => {
 
   const createNft = async () => {
     try {
-      console.log('GETTING DATA');
       const nftRes = await axios.get(nftURI);
       const content = nftRes.data;
-      console.log(content);
 
       Object.keys(content).forEach((key) => {
         if (!ALLOWED_FIELDS.includes(key)) {
           throw new Error('Invalid json structure');
         }
       });
-
-      alert('Can create NFT!!!');
     } catch (e: any) {
       console.error(e.message);
     }
@@ -171,6 +168,7 @@ const NftCreate: NextPage = () => {
                         <div className="mt-1 flex rounded-md shadow-sm">
                           <input
                             onChange={(e) => setNftURI(e.target.value)}
+                            value={nftURI}
                             type="text"
                             name="uri"
                             id="uri"
@@ -201,6 +199,10 @@ const NftCreate: NextPage = () => {
                       </label>
                       <div className="mt-1 flex rounded-md shadow-sm">
                         <input
+                          onChange={(e) => {
+                            setPrice(e.target.value);
+                          }}
+                          value={price}
                           type="number"
                           name="price"
                           id="price"
