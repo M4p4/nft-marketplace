@@ -13,6 +13,8 @@ const abi = contract.abi;
 const targetNetwork = process.env
   .NEXT_PUBLIC_NETWORK_ID as keyof typeof NETWORKS;
 export const contractAddress = contract['networks'][targetNetwork]['address'];
+export const pinataApiKey = process.env.PINATA_API_KEY as string;
+export const pinataApiSecret = process.env.PINATA_API_SECRET as string;
 
 export function withSession(handler: any) {
   return withIronSession(handler, {
