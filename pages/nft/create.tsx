@@ -7,6 +7,7 @@ import { NftMeta, PinataRes } from '@_types/nft';
 import axios from 'axios';
 import { useWeb3 } from '@providers/web3';
 import { ethers } from 'ethers';
+import { toast } from 'react-toastify';
 
 const PINATA_CDN = process.env.NEXT_PUBLIC_PINATA_CDN as string;
 const ALLOWED_FIELDS = ['name', 'description', 'image', 'attributes'];
@@ -53,12 +54,18 @@ const NftCreate: NextPage = () => {
     const bytes = new Uint8Array(buffer);
     try {
       const { account, signedData } = await getSignedData();
-      const res = await axios.post('/api/verify-image', {
+      const promise = axios.post('/api/verify-image', {
         address: account,
         signature: signedData,
         bytes,
         contentType: file.type,
         fileName: file.name.replace(/\.[^/.]+$/, ''),
+      });
+
+      const res = await toast.promise(promise, {
+        pending: 'Uploading image',
+        success: 'Image uploaded',
+        error: 'Image upload error',
       });
 
       const data = res.data as PinataRes;
@@ -88,10 +95,16 @@ const NftCreate: NextPage = () => {
   const uploadMetaData = async () => {
     try {
       const { account, signedData } = await getSignedData();
-      const res = await axios.post('/api/verify', {
+      const promise = axios.post('/api/verify', {
         address: account,
         signature: signedData,
         nft: nftMeta,
+      });
+
+      const res = await toast.promise(promise, {
+        pending: 'Uploading metadata',
+        success: 'Metadata uploaded',
+        error: 'Metadata upload error',
       });
 
       const data = res.data as PinataRes;
@@ -121,8 +134,12 @@ const NftCreate: NextPage = () => {
           value: listingPrice,
         }
       );
-      await tx?.wait();
-      alert('Nft minted');
+
+      const res = await toast.promise(tx!.wait(), {
+        pending: 'minting NFT',
+        success: 'NFT minted!',
+        error: 'Error while minting NFT',
+      });
     } catch (e: any) {
       console.error(e.message);
     }
