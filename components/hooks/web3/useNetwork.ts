@@ -6,6 +6,7 @@ type useNetworkResponse = {
   isLoading: boolean;
   isSupported: boolean;
   targetNetwork: string;
+  isConnected: boolean;
 };
 
 const NETWORKS: { [k: string]: string } = {
@@ -43,12 +44,15 @@ export const hookFactory: NetworkHookFactory =
       }
     );
 
+    const isSupported = targetNetworkName === data;
+
     return {
       ...swr,
       data,
       isValidating,
       isLoading: isLoading as boolean,
-      isSupported: targetNetworkName === data,
+      isSupported,
+      isConnected: !isLoading && isSupported,
       targetNetwork: targetNetworkName,
     };
   };
