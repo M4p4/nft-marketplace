@@ -2,6 +2,7 @@ import { HookFactory } from '@_types/hooks';
 import { Nft } from '@_types/nft';
 import { ethers } from 'ethers';
 import { useCallback } from 'react';
+import { toast } from 'react-toastify';
 import useSWR from 'swr';
 
 type useListedNftsResponse = {
@@ -47,8 +48,11 @@ export const hookFactory: ListedNftsHookFactory =
             value: ethers.utils.parseEther(value.toString()),
           });
 
-          await result?.wait();
-          alert('You bought a NFT. See profile page!');
+          const res = await toast.promise(result!.wait(), {
+            pending: 'Processing transaction...',
+            success: 'You bought a NFT. See profile page!',
+            error: 'Error while processing transaction',
+          });
         } catch (e: any) {
           console.log(e.message);
         }
