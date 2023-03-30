@@ -2,7 +2,7 @@
 
 <img align="right" width="250" src="./readme_img.webp"></img>
 
-a simple NFT Marketplace DApp where you can sell, buy and mind NFT's. For the UI the TailwindCSS Framework is used.
+A simple NFT Marketplace DApp where you can sell, buy and mind NFT's. For the UI the TailwindCSS Framework is used.
 
 ### Features
 
